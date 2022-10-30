@@ -12,6 +12,9 @@ public class PlayerControler : MonoBehaviour
     // Déclaration des variables
     bool _Grounded { get; set; }
     bool _Flipped { get; set; }
+    bool _isOnIce { get; set; }
+    bool _isOnTrampoline { get; set; }
+    bool _isOnMud { get; set; }
     Animator _Anim { get; set; }
     Rigidbody _Rb { get; set; }
     Camera _MainCamera { get; set; }
@@ -25,6 +28,12 @@ public class PlayerControler : MonoBehaviour
 
     [SerializeField]
     LayerMask WhatIsGround;
+
+    [SerializeField]
+    float trampoForce = 10;
+
+    [SerializeField]
+    float mudEffect= 0.5f;
 
     // Awake se produit avait le Start. Il peut être bien de régler les références dans cette section.
     void Awake()
@@ -53,7 +62,28 @@ public class PlayerControler : MonoBehaviour
     // Gère le mouvement horizontal
     void HorizontalMove(float horizontal)
     {
-        _Rb.velocity = new Vector3(_Rb.velocity.x, _Rb.velocity.y, horizontal);
+        Debug.Log(_isOnMud);
+        //_Rb.velocity = new Vector3(_Rb.velocity.x, _Rb.velocity.y, horizontal);
+        //_Rb.AddForce(new Vector3(0, 0, horizontal*0.5f)); 
+        if (_isOnTrampoline)
+        {
+           //_Rb.AddForce(new Vector3(0, trampoForce*Mathf.Abs(_Rb.velocity.y),0));
+           _Rb.AddForce(new Vector3(0, trampoForce*(Mathf.Abs(_Rb.velocity.y)+0.25f*Mathf.Abs(_Rb.velocity.z)),0));
+           //_Rb.AddForce(new Vector3(0, trampoForce*(Mathf.Abs(_Rb.velocity.y)),trampoForce*Mathf.Abs(_Rb.velocity.z)));
+           _isOnTrampoline=false;
+           Debug.Log(trampoForce*Mathf.Abs(_Rb.velocity.z));
+        }
+        
+        if (_isOnIce)
+        {
+           _Rb.AddForce(new Vector3(0, 0,horizontal*0.2f)); 
+        } 
+        else if(_isOnMud){
+           _Rb.velocity = new Vector3(_Rb.velocity.x, _Rb.velocity.y,horizontal*mudEffect);
+        }
+        else{
+            _Rb.velocity = new Vector3(_Rb.velocity.x, _Rb.velocity.y,horizontal);
+        }
         _Anim.SetFloat("MoveSpeed", Mathf.Abs(horizontal));
     }
 
@@ -104,5 +134,25 @@ public class PlayerControler : MonoBehaviour
             _Grounded = true;
             _Anim.SetBool("Grounded", _Grounded);
         }
+        if (coll.gameObject.tag == "trampoline") {
+            _isOnTrampoline=true;
+        }else{
+            _isOnTrampoline=false;
+        }
+        
+        if (coll.gameObject.tag == "mud") {
+            _isOnMud=true;
+        }else{
+            _isOnMud=false;
+        }
+        if (coll.gameObject.tag == "ice") {
+            _isOnIce=true;
+            Debug.Log("ice floor");
+            GetComponent<Collider>().material.dynamicFriction = 0;
+            Debug.Log(GetComponent<Collider>().material);
+        }else {
+            _isOnIce=false;
+        }
     }
+    
 }
