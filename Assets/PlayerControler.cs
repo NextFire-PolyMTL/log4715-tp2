@@ -32,6 +32,7 @@ public class PlayerControler : MonoBehaviour
         _Anim = GetComponent<Animator>();
         _Rb = GetComponent<Rigidbody>();
         _MainCamera = Camera.main;
+        
     }
 
     // Utile pour régler des valeurs aux objets
