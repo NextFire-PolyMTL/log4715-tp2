@@ -49,6 +49,11 @@ public class PlayerControler : MonoBehaviour
         HorizontalMove(horizontal);
         FlipCharacter(horizontal);
         CheckJump();
+        if (Input.GetButtonDown("Attack"))
+        {
+            //_Anim.SetBool("Attack",true);
+            _Anim.CrossFade("Attack",0.1f);
+        }
     }
 
     // Gère le mouvement horizontal

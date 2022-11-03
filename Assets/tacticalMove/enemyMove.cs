@@ -102,6 +102,22 @@ public class enemyMove : MonoBehaviour
         }
     }
 
+    void OnCollisonEnter(Collision coll){
+        Debug.Log("tag:");
+        Debug.Log(coll.gameObject.tag);
+        if(coll.gameObject.tag=="weapon"){
+            Debug.Log("aïe");
+        }
+    }
+    void OnTriggerEnter(Collider vision){
+        Debug.Log(vision.gameObject.tag);
+        if(vision.gameObject.name=="MaleFree1"){
+            Debug.Log("alert");
+            _Anim.SetBool("Alert", true);
+        }
+        
+    }
+    
     // Collision avec le sol
     
     /*
