@@ -40,8 +40,12 @@ public class projectileBehavior : MonoBehaviour
        _Tr.position += target_direction*Time.deltaTime*10f; 
     }
 
-    void OnCollisionEnter(Collision Collision){
+    void OnCollisionEnter(Collision coll){
         Debug.Log("Collision");
+        
+        if(coll.gameObject.tag=="Hero"){
+            Destroy(coll.gameObject);
+        }
         Destroy(gameObject);
     }
 }

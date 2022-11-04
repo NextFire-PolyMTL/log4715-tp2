@@ -111,7 +111,7 @@ public class enemyMove : MonoBehaviour
     }
     void OnTriggerEnter(Collider vision){
         Debug.Log(vision.gameObject.tag);
-        if(vision.gameObject.name=="MaleFree1"){
+        if(vision.gameObject.tag=="Hero"){
             Debug.Log("alert");
             _Anim.SetBool("Alert", true);
         }
@@ -133,7 +133,7 @@ public class enemyMove : MonoBehaviour
     
     void OnTriggerStay(Collider vision){
         //Debug.Log(vision.gameObject.name=="MaleFree1");
-        if(vision.gameObject.name=="MaleFree1" && fire_on_target){
+        if(vision.gameObject.tag=="Hero" && fire_on_target){
             targetPosition=vision.gameObject.transform.position;
             deltaTime=(Time.frameCount-lastTimeFire);
             if(deltaTime>frameBtwFire){

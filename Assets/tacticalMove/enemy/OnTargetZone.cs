@@ -23,7 +23,7 @@ public class OnTargetZone : MonoBehaviour
     void OnTriggerEnter(Collider vision){
         //Debug.Log(vision.gameObject.name=="MaleFree1");
         targetOnView=true;
-        if(vision.gameObject.name=="MaleFree1"){
+        if(vision.gameObject.tag=="Hero"){
             Debug.Log("fire");
             _Anim.SetBool("Target", true); 
             _Anim.CrossFade("Idle_Shoot_Ar",0.1f);
@@ -32,7 +32,7 @@ public class OnTargetZone : MonoBehaviour
     }  
     
     void OnTriggerExit(Collider vision){
-        if(vision.gameObject.name=="MaleFree1"){
+        if(vision.gameObject.tag=="Hero"){
 
             enemy_move.fire_on_target=false;
             _Anim.SetBool("Target", false);

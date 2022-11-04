@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class weaponDamage : MonoBehaviour
 {
+    public bool damage_mode=false;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,9 +17,20 @@ public class weaponDamage : MonoBehaviour
         
     }
 
-    void OnColliderEnter(Collision vision){
-        
+    void OnCollisionEnter(Collision vision){
+        Debug.Log("enemy:");
+        Debug.Log(vision.gameObject.tag);
         if(vision.gameObject.tag=="Enemy"){
+            Debug.Log("touché!! ah ah ah");
+            GameObject.Destroy(vision.gameObject);
+        }
+        
+    }
+    void OnTriggerEnter(Collider vision){
+        Debug.Log("enemy:");
+        Debug.Log(vision.gameObject.tag);
+        if(vision.gameObject.tag=="Enemy" && damage_mode){
+            Debug.Log("touché!! ah ah ah");
             GameObject.Destroy(vision.gameObject);
         }
         

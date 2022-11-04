@@ -6,8 +6,10 @@ public class PlayerControler : MonoBehaviour
 {
     // Déclaration des constantes
     private static readonly Vector3 FlipRotation = new Vector3(0, 180, 0);
-    private static readonly Vector3 CameraPosition = new Vector3(10, 1, 0);
-    private static readonly Vector3 InverseCameraPosition = new Vector3(-10, 1, 0);
+    private static readonly Vector3 CameraPosition = new Vector3(10, 3, 0);
+    private static readonly Vector3 InverseCameraPosition = new Vector3(-10, 3, 0);
+
+    private weaponDamage _Weapon;
 
     // Déclaration des variables
     bool _Grounded { get; set; }
@@ -26,12 +28,15 @@ public class PlayerControler : MonoBehaviour
     [SerializeField]
     LayerMask WhatIsGround;
 
+    public GameObject Weapon;
+
     // Awake se produit avait le Start. Il peut être bien de régler les références dans cette section.
     void Awake()
     {
         _Anim = GetComponent<Animator>();
         _Rb = GetComponent<Rigidbody>();
         _MainCamera = Camera.main;
+        _Weapon=Weapon.GetComponent<weaponDamage>();
         
     }
 
@@ -52,8 +57,14 @@ public class PlayerControler : MonoBehaviour
         if (Input.GetButtonDown("Attack"))
         {
             //_Anim.SetBool("Attack",true);
+            _Weapon.damage_mode=true;
             _Anim.CrossFade("Attack",0.1f);
         }
+        /*
+        if(_Anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")){
+         _Weapon.damage_mode=false;
+        }
+        */
     }
 
     // Gère le mouvement horizontal
@@ -110,5 +121,8 @@ public class PlayerControler : MonoBehaviour
             _Grounded = true;
             _Anim.SetBool("Grounded", _Grounded);
         }
+    }
+    void Attack_End(){
+        _Weapon.damage_mode=false;
     }
 }
