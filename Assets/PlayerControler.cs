@@ -28,7 +28,12 @@ public class PlayerControler : MonoBehaviour
     [SerializeField]
     LayerMask WhatIsGround;
 
+    [SerializeField]
+    GameObject GameOverScreen;
+
+
     public GameObject Weapon;
+    public float life=1000;
 
     // Awake se produit avait le Start. Il peut être bien de régler les références dans cette section.
     void Awake()
@@ -45,9 +50,18 @@ public class PlayerControler : MonoBehaviour
     {
         _Grounded = false;
         _Flipped = false;
+        _MainCamera.transform.localPosition = CameraPosition;
+         GameOverScreen.SetActive(false);
     }
 
     // Vérifie les entrées de commandes du joueur
+    void FixedUpdate(){
+        if(life==0){
+            GameOverScreen.SetActive(true);
+            //_MainCamera.transform.Rotate(GameOverScreen.GetComponent<RectTransform>().rotation);
+            _MainCamera.transform.localPosition = GameOverScreen.GetComponent<RectTransform>().position;
+        }
+    }
     void Update()
     {
         var horizontal = Input.GetAxis("Horizontal") * MoveSpeed;

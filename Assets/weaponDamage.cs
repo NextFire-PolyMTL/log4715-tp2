@@ -31,7 +31,8 @@ public class weaponDamage : MonoBehaviour
         Debug.Log(vision.gameObject.tag);
         if(vision.gameObject.tag=="Enemy" && damage_mode){
             Debug.Log("touché!! ah ah ah");
-            GameObject.Destroy(vision.gameObject);
+            vision.gameObject.GetComponent<Animator>().CrossFade("Die",0.1f);
+            GameObject.Destroy(vision.gameObject,3f);
         }
         
     }
