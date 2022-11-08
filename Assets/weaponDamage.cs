@@ -27,8 +27,6 @@ public class weaponDamage : MonoBehaviour
         
     }
     void OnTriggerEnter(Collider vision){
-        Debug.Log("enemy:");
-        Debug.Log(vision.gameObject.tag);
         if(vision.gameObject.tag=="Enemy" && damage_mode){
             Debug.Log("touché!! ah ah ah");
             vision.gameObject.GetComponent<Animator>().CrossFade("Die",0.1f);
