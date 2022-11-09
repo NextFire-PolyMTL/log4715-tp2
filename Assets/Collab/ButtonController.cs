@@ -31,9 +31,4 @@ public class ButtonController : MonoBehaviour
             _LeftWall.SetActive(false);
         }
     }
-
-    void OnCollisionExit(Collision collision)
-    {
-        _LeftWall.SetActive(true);
-    }
 }
