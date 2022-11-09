@@ -16,11 +16,11 @@ public class FreezeOnIcePC : MonoBehaviour
     Rigidbody _Rb { get; set; }
 
     Vector3 _lastPosition { get; set; }
-    float _cumulativeTime { get; set; }
+    float _timeInactive { get; set; }
     bool _Iced { get; set; }
     bool _Freezed { get; set; }
-    int _boolCumulateActions { get; set; }
-    GameObject _FrozenCharacter { get; set; }
+    int _FreezedActions { get; set; }
+    GameObject _IceBlock { get; set; }
 
     // Valeurs exposées
     [SerializeField]
@@ -32,14 +32,18 @@ public class FreezeOnIcePC : MonoBehaviour
     [SerializeField]
     LayerMask WhatIsGround;
 
-    public string IceTag;
+    public float DelayUntilFreeze = 1;
+    public int IceBreakNbActions = 5;
+
+    public string IceBlockName;
+    public string WhatIsIceTag;
 
     // Awake se produit avait le Start. Il peut être bien de régler les références dans cette section.
     void Awake()
     {
         _Anim = GetComponent<Animator>();
         _Rb = GetComponent<Rigidbody>();
-        _FrozenCharacter = GameObject.Find("FrozenCharacter");
+        _IceBlock = GameObject.Find(IceBlockName);
     }
 
     // Utile pour régler des valeurs aux objets
@@ -49,7 +53,7 @@ public class FreezeOnIcePC : MonoBehaviour
         _Flipped = false;
         _Iced = false;
         _Freezed = false;
-        _FrozenCharacter.SetActive(false);
+        _IceBlock.SetActive(false);
     }
 
     // Vérifie les entrées de commandes du joueur
@@ -106,7 +110,7 @@ public class FreezeOnIcePC : MonoBehaviour
         if ((WhatIsGround & (1 << coll.gameObject.layer)) == 0)
             return;
 
-        if (coll.gameObject.tag == IceTag) _Iced = true;
+        if (coll.gameObject.tag == WhatIsIceTag) _Iced = true;
 
         // Évite une collision avec le plafond
         if (coll.relativeVelocity.y > 0)
@@ -122,35 +126,35 @@ public class FreezeOnIcePC : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump") || Input.GetButtonDown("Horizontal"))
             {
-                if (++_boolCumulateActions >= 5)
+                if (++_FreezedActions >= IceBreakNbActions)
                 {
-                    _cumulativeTime = 0;
                     _Freezed = false;
-                    SwitchFrozen();
+                    ShowIceBlock(_Freezed);
+                    _timeInactive = 0;
                 }
             }
 
         }
         else if (_Iced && transform.position == _lastPosition)
         {
-            _cumulativeTime += Time.deltaTime;
-            if (_cumulativeTime >= 1)
+            _timeInactive += Time.deltaTime;
+            if (_timeInactive >= DelayUntilFreeze)
             {
                 _Freezed = true;
-                _boolCumulateActions = 0;
-                SwitchFrozen();
+                ShowIceBlock(_Freezed);
+                _FreezedActions = 0;
             }
         }
         else
         {
-            _cumulativeTime = 0;
+            _timeInactive = 0;
             _lastPosition = transform.position;
         }
     }
 
-    void SwitchFrozen()
+    void ShowIceBlock(bool show)
     {
-        _FrozenCharacter.transform.position = transform.position;
-        _FrozenCharacter.SetActive(!_FrozenCharacter.activeSelf);
+        _IceBlock.transform.position = transform.position;
+        _IceBlock.SetActive(show);
     }
 }
