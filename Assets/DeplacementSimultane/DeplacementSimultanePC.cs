@@ -14,24 +14,31 @@ public class DeplacementSimultanePC : MonoBehaviour
     bool _Flipped { get; set; }
     Animator _Anim { get; set; }
     Rigidbody _Rb { get; set; }
+   Transform _Tr { get; set; }
     Camera _MainCamera { get; set; }
 
     // Valeurs exposées
     [SerializeField]
     float MoveSpeed = 5.0f;
-
+    
     [SerializeField]
     float JumpForce = 10f;
 
     [SerializeField]
     LayerMask WhatIsGround;
 
+    //[SerializeField]
+    //GameObject MainCamera; 
+
+    
     // Awake se produit avait le Start. Il peut être bien de régler les références dans cette section.
     void Awake()
     {
         _Anim = GetComponent<Animator>();
         _Rb = GetComponent<Rigidbody>();
+        _Tr = GetComponent<Transform>();
         _MainCamera = Camera.main;
+        //_MainCamera = MainCamera.GetComponent<Camera>();
     }
 
     // Utile pour régler des valeurs aux objets
@@ -39,6 +46,7 @@ public class DeplacementSimultanePC : MonoBehaviour
     {
         _Grounded = false;
         _Flipped = false;
+
     }
 
     // Vérifie les entrées de commandes du joueur
@@ -54,6 +62,8 @@ public class DeplacementSimultanePC : MonoBehaviour
     void HorizontalMove(float horizontal)
     {
         _Rb.velocity = new Vector3(_Rb.velocity.x, _Rb.velocity.y, horizontal);
+        //_MainCamera.transform.Position(_MainCamera.transform.position.x,_MainCamera.transform.position.y, _Tr.transform.position.z);
+       //_MainCamera.transform.position= new Vector3(MainCamera.transform.position.x,_MainCamera.transform.position.y, _Tr.transform.position.z);
         _Anim.SetFloat("MoveSpeed", Mathf.Abs(horizontal));
     }
 
