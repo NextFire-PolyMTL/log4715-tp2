@@ -29,6 +29,8 @@ public class ButtonController : MonoBehaviour
         if (collision.contacts[0].normal.y < 0)
         {
             _LeftWall.SetActive(false);
+            var renderer = transform.GetComponent<Renderer>();
+            renderer.material.color = Color.green;
         }
     }
 }
