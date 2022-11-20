@@ -4,4 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/000 - SCENES A LANCER/Gym_6.unity
+    guid: 5783bfa9da6b0ba4b96eb0cc731b839b
+  - enabled: 1
+    path: Assets/6 - DIALOGUE ET MINI-JEU D'ARGENT/dice_obj/Dice-game.unity
+    guid: 765865bb84eab1f45830f3cd19849700
+  m_configObjects: {}

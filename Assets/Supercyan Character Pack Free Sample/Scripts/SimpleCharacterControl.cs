@@ -12,6 +12,11 @@ public class SimpleCharacterControl : MonoBehaviour {
     [SerializeField] private float m_moveSpeed = 2;
     [SerializeField] private float m_turnSpeed = 200;
     [SerializeField] private float m_jumpForce = 4;
+    /* // MODIF DEBUT
+    [SerializeField] private float m_dashSpeed = 10;
+    [SerializeField] private int nb_dash = 1;
+    private int nb_dash_actuel = nb_dash;
+    // MODIF FIN */
     [SerializeField] private Animator m_animator;
     [SerializeField] private Rigidbody m_rigidBody;
 
@@ -106,6 +111,13 @@ public class SimpleCharacterControl : MonoBehaviour {
         }
 
         m_wasGrounded = m_isGrounded;
+
+        /* // MODIF DEBUT
+        if(m_isGrounded && (nb_dash != nb_dash_actuel))
+        {
+            nb_dash_actuel = nb_dash;
+        }
+        // MODIF FIN */
     }
 
     private void TankUpdate()
@@ -168,6 +180,19 @@ public class SimpleCharacterControl : MonoBehaviour {
 
         JumpingAndLanding();
     }
+
+   /*  // MODIF DEBUT
+    private void FixedUpdate ()
+    {
+        if (Input.GetKey(KeyCode.E) && nb_dash_actuel > 0)
+        {
+            nb_dash_actuel = nb_dash_actuel - 1;
+            m_rigidBody.velocity = new Vector3(m_dashSpeed, 0, 0);
+        }
+
+    }
+    // MODIF FIN */
+
 
     private void JumpingAndLanding()
     {
